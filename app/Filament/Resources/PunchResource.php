@@ -17,7 +17,7 @@ class PunchResource extends Resource
 {
     protected static ?string $model = Punch::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     public static function form(Form $form): Form
     {
@@ -31,7 +31,11 @@ class PunchResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('user.name'),
+                Tables\Columns\TextColumn::make('punch'),
+                Tables\Columns\TextColumn::make('date'),
+                Tables\Columns\TextColumn::make('reference'),
+                Tables\Columns\CheckboxColumn::make('approved'),
             ])
             ->filters([
                 //

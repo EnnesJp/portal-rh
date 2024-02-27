@@ -13,7 +13,7 @@ class PunchPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class PunchPolicy
      */
     public function view(User $user, Punch $punch): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class PunchPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class PunchPolicy
      */
     public function update(User $user, Punch $punch): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class PunchPolicy
      */
     public function delete(User $user, Punch $punch): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class PunchPolicy
      */
     public function restore(User $user, Punch $punch): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class PunchPolicy
      */
     public function forceDelete(User $user, Punch $punch): bool
     {
-        //
+        return true;
     }
 }
