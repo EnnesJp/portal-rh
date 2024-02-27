@@ -45,6 +45,13 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->dehydrated(false)
                     ->same('password'),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'manager' => 'Manager',
+                        'user' => 'User',
+                    ])
+                    ->default('user'),
             ]);
     }
 
