@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PunchResource\Pages;
 use App\Filament\Resources\PunchResource\RelationManagers;
 use App\Models\Punch;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -22,8 +23,19 @@ class PunchResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(1)
             ->schema([
-                //
+                Forms\Components\TimePicker::make('time')
+                    ->readOnly()
+                    ->default(now()->format('H:i')),
+                Forms\Components\DatePicker::make('date')
+                    ->readOnly()
+                    ->default(now()->format('Y-m-d')),
+                Forms\Components\TextInput::make('reference')
+                    ->readOnly()
+                    ->default(function (): string {
+                        return auth()->user()->punches->last()->reference ?? '1';
+                    }),
             ]);
     }
 
@@ -32,9 +44,9 @@ class PunchResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('punch'),
-                Tables\Columns\TextColumn::make('date'),
-                Tables\Columns\TextColumn::make('reference'),
+                Tables\Columns\TextColumn::make('time'),
+                Tables\Columns\TextColumn::make('date')
+                    ->date('d/m/Y'),
                 Tables\Columns\CheckboxColumn::make('approved'),
             ])
             ->filters([

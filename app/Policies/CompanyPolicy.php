@@ -2,28 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Punch;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PunchPolicy
+class CompanyPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Punch $punch): bool
+    public function view(User $user, Company $company): bool
     {
-        return $user->id === $punch->user_id
-            || $user->isManager() && $user->company_id === $punch->user->company_id
-            || $user->isAdmin();
+        return true;
     }
 
     /**
@@ -37,7 +35,7 @@ class PunchPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Punch $punch): bool
+    public function update(User $user, Company $company): bool
     {
         return true;
     }
@@ -45,7 +43,7 @@ class PunchPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Punch $punch): bool
+    public function delete(User $user, Company $company): bool
     {
         return true;
     }
@@ -53,7 +51,7 @@ class PunchPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Punch $punch): bool
+    public function restore(User $user, Company $company): bool
     {
         return true;
     }
@@ -61,7 +59,7 @@ class PunchPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Punch $punch): bool
+    public function forceDelete(User $user, Company $company): bool
     {
         return true;
     }
