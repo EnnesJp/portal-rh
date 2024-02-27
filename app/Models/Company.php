@@ -11,6 +11,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'cnpj'];
+    public $timestamps = false;
 
     public function users(): HasMany
     {
