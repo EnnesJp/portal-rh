@@ -21,7 +21,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
@@ -29,7 +29,7 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
@@ -37,7 +37,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
@@ -45,22 +45,6 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company): bool
     {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Company $company): bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Company $company): bool
-    {
-        return true;
+        return $user->isAdmin();
     }
 }

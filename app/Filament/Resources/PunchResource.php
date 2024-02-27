@@ -69,4 +69,17 @@ class PunchResource extends Resource
             'index' => Pages\ManagePunches::route('/'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        if (auth()->user()->isAdmin()) {
+            return parent::getEloquentQuery();
+        } else if (auth()->user()->isManager()) {
+            return parent::getEloquentQuery()
+                ->join('users', 'users.id', '=', 'punches.user_id')
+                ->where('users.company_id', auth()->user()->company_id);
+        }
+
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+    }
 }

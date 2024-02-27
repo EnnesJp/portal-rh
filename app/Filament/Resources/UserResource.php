@@ -85,4 +85,11 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return auth()->user()->isManager()
+            ? parent::getEloquentQuery()->where('company_id', auth()->user()->company_id)
+            : parent::getEloquentQuery();
+    }
 }

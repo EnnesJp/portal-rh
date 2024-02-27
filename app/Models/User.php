@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -65,5 +66,10 @@ class User extends Authenticatable
     public function isManager(): bool
     {
         return $this->role === 'manager';
+    }
+
+    public function scopeOfCompany(Builder $query, Company $company): Builder
+    {
+        return $query->where('company_id', $company->id);
     }
 }

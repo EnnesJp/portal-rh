@@ -20,7 +20,10 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return true;
+        return $user->id === $model->id
+            || ($user->isManager()
+                && $user->company_id === $model->company_id)
+            || $user->isAdmin();
     }
 
     /**
@@ -28,7 +31,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->isAdmin() || $user->isManager();
     }
 
     /**
@@ -36,7 +39,9 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return true;
+        return $user->isAdmin()
+            || ($user->isManager()
+                && $user->company_id === $model->company_id);
     }
 
     /**
@@ -44,22 +49,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, User $model): bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        return true;
+        return $user->isAdmin()
+            || ($user->isManager()
+                && $user->company_id === $model->company_id);
     }
 }

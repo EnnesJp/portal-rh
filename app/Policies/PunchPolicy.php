@@ -22,7 +22,8 @@ class PunchPolicy
     public function view(User $user, Punch $punch): bool
     {
         return $user->id === $punch->user_id
-            || $user->isManager() && $user->company_id === $punch->user->company_id
+            || ($user->isManager()
+                && $user->company_id === $punch->user->company_id)
             || $user->isAdmin();
     }
 
@@ -39,7 +40,9 @@ class PunchPolicy
      */
     public function update(User $user, Punch $punch): bool
     {
-        return true;
+        return $user->isAdmin()
+            || ($user->isManager()
+                && $user->company_id === $punch->user->company_id);
     }
 
     /**
@@ -47,22 +50,8 @@ class PunchPolicy
      */
     public function delete(User $user, Punch $punch): bool
     {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Punch $punch): bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Punch $punch): bool
-    {
-        return true;
+        return $user->isAdmin()
+            || ($user->isManager()
+                && $user->company_id === $punch->user->company_id);
     }
 }
