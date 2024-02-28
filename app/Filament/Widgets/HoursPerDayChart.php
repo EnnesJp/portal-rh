@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\PunchResource;
 use Filament\Widgets\ChartWidget;
 
 class HoursPerDayChart extends ChartWidget
@@ -10,6 +11,13 @@ class HoursPerDayChart extends ChartWidget
 
     protected function getData(): array
     {
+        $punches = PunchResource::getEloquentQuery()
+            ->where('user_id', auth()->id())
+            ->where('date', '<', now()->format('Y-m-d'))
+            ->where('date', '>=', now()->subDays(6)->format('Y-m-d'))
+            ->where('approved', true)
+            ->get();
+
         return [
             'datasets' => [
                 [
