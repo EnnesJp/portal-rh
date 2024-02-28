@@ -3,13 +3,15 @@
 namespace App\Filament\Widgets;
 
 use App\Filament\Resources\PunchResource;
-use Filament\Forms\Form;
+use App\Models\Punch;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestPunches extends BaseWidget
 {
+    protected static string $resource = PunchResource::class;
     public function table(Table $table): Table
     {
         return $table
@@ -20,35 +22,51 @@ class LatestPunches extends BaseWidget
                     ->limit(5)
             )
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label('Include Punch')
+                    ->icon('heroicon-o-plus-circle')
+                    ->color('info')
+                    ->outlined()
+                    ->form([
+                        Forms\Components\DatePicker::make('date')
+                            ->default(now()->format('Y-m-d'))
+                            ->required(),
+                        Forms\Components\TimePicker::make('time')
+                            ->default(now()->format('H:i'))
+                            ->required(),
+                        Forms\Components\TextInput::make('reference')
+                            ->required(),
+                    ])
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['user_id'] = auth()->id();
+                        $data['approved'] = false;
+                        $data['is_manual'] = true;
+                        return $data;
+                    }),
+                Tables\Actions\CreateAction::make()
+                    ->label('Register Punch')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->color('info')
+                    ->form([
+                        Forms\Components\DatePicker::make('date')
+                            ->readOnly()
+                            ->default(now()->format('Y-m-d')),
+                        Forms\Components\TimePicker::make('time')
+                            ->readOnly()
+                            ->default(now()->format('H:i')),
+                        Forms\Components\TextInput::make('reference')
+                            ->readOnly()
+                            ->default(function (): string {
+                                return auth()->user()->punches->last()->reference ?? '1';
+                            }),
+                    ]),
             ])
             ->columns([
                 Tables\Columns\TextColumn::make('time'),
                 Tables\Columns\TextColumn::make('date')
                     ->date('d/m/Y'),
-                Tables\Columns\CheckboxColumn::make('approved')
-                    ->disabled(),
+                Tables\Columns\IconColumn::make('approved')
+                    ->boolean(),
             ]);
-    }
-
-    public function getFormSchema(): array
-    {
-        return [
-            Forms\Components\TextInput::make('reference')
-                ->label('Reference')
-                ->readOnly()
-                ->default(function (): string {
-                    return auth()->user()->punches->last()->reference ?? '1';
-                })
-                ->columnSpan(2),
-            Forms\Components\DatePicker::make('date')
-                ->label('Date')
-                ->default(now()->format('Y-m-d'))
-                ->columnSpan(2),
-            Forms\Components\TimePicker::make('time')
-                ->label('Time')
-                ->default(now()->format('H:i'))
-                ->columnSpan(2),
-        ];
     }
 }
