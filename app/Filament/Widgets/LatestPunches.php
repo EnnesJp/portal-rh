@@ -16,7 +16,7 @@ class LatestPunches extends BaseWidget
                 PunchResource::getEloquentQuery()
                     ->where('user_id', auth()->user()->id)
                     ->latest()
-                    ->limit(10)
+                    ->limit(5)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('time'),
