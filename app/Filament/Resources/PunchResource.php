@@ -47,7 +47,8 @@ class PunchResource extends Resource
                 Tables\Columns\TextColumn::make('time'),
                 Tables\Columns\TextColumn::make('date')
                     ->date('d/m/Y'),
-                Tables\Columns\CheckboxColumn::make('approved'),
+                Tables\Columns\CheckboxColumn::make('approved')
+                    ->disabled(!auth()->user()->isManager()),
             ])
             ->filters([
                 //
