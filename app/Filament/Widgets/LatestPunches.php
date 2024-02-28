@@ -11,7 +11,6 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestPunches extends BaseWidget
 {
-    protected static string $resource = PunchResource::class;
     public function table(Table $table): Table
     {
         return $table
@@ -22,8 +21,7 @@ class LatestPunches extends BaseWidget
                     ->limit(5)
             )
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label('Include Punch')
+                Tables\Actions\Action::make('Include Punch')
                     ->icon('heroicon-o-plus-circle')
                     ->color('info')
                     ->outlined()
@@ -42,9 +40,11 @@ class LatestPunches extends BaseWidget
                         $data['approved'] = false;
                         $data['is_manual'] = true;
                         return $data;
+                    })
+                    ->action(function (array $data) {
+                        Punch::create($data);
                     }),
-                Tables\Actions\CreateAction::make()
-                    ->label('Register Punch')
+                Tables\Actions\Action::make('Register Punch')
                     ->icon('heroicon-o-clipboard-document-check')
                     ->color('info')
                     ->form([
@@ -55,11 +55,18 @@ class LatestPunches extends BaseWidget
                             ->readOnly()
                             ->default(now()->format('H:i')),
                         Forms\Components\TextInput::make('reference')
-                            ->readOnly()
+                            ->hidden()
                             ->default(function (): string {
-                                return auth()->user()->punches->last()->reference ?? '1';
+                                return auth()->user()->punches->last()->reference + 1 ?? '1';
                             }),
-                    ]),
+                    ])
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['user_id'] = auth()->id();
+                        return $data;
+                    })
+                    ->action(function (array $data) {
+                        Punch::create($data);
+                    }),
             ])
             ->columns([
                 Tables\Columns\TextColumn::make('time'),
