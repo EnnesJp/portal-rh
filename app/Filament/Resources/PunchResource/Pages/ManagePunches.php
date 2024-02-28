@@ -14,6 +14,7 @@ class ManagePunches extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('Include Punch')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['user_id'] = auth()->id();
                     return $data;
