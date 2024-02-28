@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordResetRequestRouteSlug('request')
             ->passwordResetRouteSlug('reset')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->brandName('Portal RH')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

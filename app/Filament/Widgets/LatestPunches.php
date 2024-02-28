@@ -23,7 +23,6 @@ class LatestPunches extends BaseWidget
             ->headerActions([
                 Tables\Actions\Action::make('Include Punch')
                     ->icon('heroicon-o-plus-circle')
-                    ->color('info')
                     ->outlined()
                     ->form([
                         Forms\Components\DatePicker::make('date')
@@ -46,7 +45,6 @@ class LatestPunches extends BaseWidget
                     }),
                 Tables\Actions\Action::make('Register Punch')
                     ->icon('heroicon-o-clipboard-document-check')
-                    ->color('info')
                     ->form([
                         Forms\Components\DatePicker::make('date')
                             ->readOnly()
