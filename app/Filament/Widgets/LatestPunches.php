@@ -68,6 +68,16 @@ class LatestPunches extends BaseWidget
                     ->date('d/m/Y'),
                 Tables\Columns\IconColumn::make('approved')
                     ->boolean(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('approved')
+                    ->options([
+                        'true' => 'Approved',
+                        'false' => 'Not Approved',
+                    ]),
+                Tables\Filters\SelectFilter::make('date')
+                    ->options(fn () => Punch::query()->pluck('date')->unique()->mapWithKeys(fn ($date) => [$date => $date]))
+                    ->default(now()->format('Y-m-d')),
             ]);
     }
 }
