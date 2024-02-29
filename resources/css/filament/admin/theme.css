@@ -1,0 +1,12 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-simple-layout {
+    background-image: url("/images/background.webp");
+    background-size: cover;
+}
+
+.fi-simple-main-ctn {
+    background-color: none !important;
+}
