@@ -41,7 +41,7 @@ class UpdateCompTime extends Command
 
             $totalMinutes = 0.0;
             foreach ($punches as $i => $punch) {
-                if ($i/2 !== 0 && !isset($punches[$i + 1])) {
+                if ($i%2 == 0 && isset($punches[$i + 1])) {
                     $start = new \DateTime($punch->time);
                     $end = new \DateTime($punches[$i + 1]->time);
 
@@ -52,9 +52,11 @@ class UpdateCompTime extends Command
             CompTime::create([
                 'user_id' => $user->id,
                 'date' => $today,
-                'total_time' => $totalMinutes,
+                'total_minutes' => $totalMinutes,
                 'comp_minutes' => $totalMinutes - (8 * 60),
             ]);
+
+            $this->info('Comp time updated for ' . $user->name);
         }
     }
 }

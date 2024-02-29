@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('comp-time:update')->dailyAt('23:59');
+        $schedule->command('comp-time:update')
+            ->dailyAt('23:59')
+            ->days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY]);
     }
 
     /**
