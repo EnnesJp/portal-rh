@@ -35,8 +35,17 @@ class AdminPanelProvider extends PanelProvider
             ->passwordResetRoutePrefix('password-reset')
             ->passwordResetRequestRouteSlug('request')
             ->passwordResetRouteSlug('reset')
+            ->favicon(asset('images/favicon.png'))
+            ->brandLogo(asset('images/logo-new.png'))
+            ->brandLogoHeight('4rem')
+            ->font('Poppins')
             ->colors([
-                'primary' => Color::Blue,
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => 'rgb(138,43,226)',
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
             ->brandName('Portal RH')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
