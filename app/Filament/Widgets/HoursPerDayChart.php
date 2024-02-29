@@ -18,18 +18,13 @@ class HoursPerDayChart extends ChartWidget
             ->where('approved', true)
             ->get();
 
-        $widgetDays = [];
+        $weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $dataPerDay = [];
         $widgetData = [];
 
         foreach ($punches as $punch) {
             $date = new \DateTime($punch->date);
-            $day = $date->format('D');;
-
-            if (!in_array($day, $widgetDays)) {
-                $widgetDays[] = $day;
-            }
-
+            $day = $date->format('D');
             $dataPerDay[$day][] = $punch->time;
         }
 
@@ -38,13 +33,17 @@ class HoursPerDayChart extends ChartWidget
             $punchesCount = count($punches);
 
             for ($i = 0; $i < $punchesCount; $i += 2) {
+                if (!isset($punches[$i + 1])) {
+                    break;
+                }
+
                 $start = new \DateTime($punches[$i]);
                 $end = new \DateTime($punches[$i + 1]);
 
                 $totalHours += round(($start->diff($end)->h * 60 + $start->diff($end)->i) / 60, 2);
             }
 
-            $widgetData[] = $totalHours;
+            $widgetData[$day] = $totalHours;
         }
 
         return [
@@ -54,7 +53,7 @@ class HoursPerDayChart extends ChartWidget
                     'data' => $widgetData,
                 ],
             ],
-            'labels' => $widgetDays,
+            'labels' => $weekDays,
         ];
     }
 
