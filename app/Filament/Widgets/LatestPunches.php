@@ -4,10 +4,12 @@ namespace App\Filament\Widgets;
 
 use App\Filament\Resources\PunchResource;
 use App\Models\Punch;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Support\Facades\Date;
 
 class LatestPunches extends BaseWidget
 {
@@ -42,6 +44,12 @@ class LatestPunches extends BaseWidget
                     })
                     ->action(function (array $data) {
                         Punch::create($data);
+                        Notification::make()
+                            ->title('Punch included successfully!')
+                            ->icon('heroicon-o-check')
+                            ->color('success')
+                            ->success()
+                            ->send();
                     }),
                 Tables\Actions\Action::make('Register Punch')
                     ->icon('heroicon-o-clipboard-document-check')
@@ -60,6 +68,12 @@ class LatestPunches extends BaseWidget
                     })
                     ->action(function (array $data) {
                         Punch::create($data);
+                        Notification::make()
+                            ->title('Punch registered successfully!')
+                            ->icon('heroicon-o-check')
+                            ->color('success')
+                            ->success()
+                            ->send();
                     }),
             ])
             ->columns([
@@ -76,7 +90,7 @@ class LatestPunches extends BaseWidget
                         'false' => 'Not Approved',
                     ]),
                 Tables\Filters\SelectFilter::make('date')
-                    ->options(fn () => Punch::query()->pluck('date')->unique()->mapWithKeys(fn ($date) => [$date => $date]))
+                    ->options(fn () => Punch::query()->pluck('date')->unique()->mapWithKeys(fn ($date) => [$date => date('d/m/Y', strtotime($date))]))
                     ->default(now()->format('Y-m-d')),
             ]);
     }
