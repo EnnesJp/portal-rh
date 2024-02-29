@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\CompTime;
 use App\Models\DayOff;
 use App\Models\Punch;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class UpdateCompTime extends Command
@@ -30,7 +31,7 @@ class UpdateCompTime extends Command
     {
         $users = \App\Models\User::all();
         foreach ($users as $user) {
-            $today = date('Y-m-d');
+            $today = '2024-02-26';
 
             $punches = Punch::all()
                 ->where('user_id', $user->id)
@@ -49,12 +50,17 @@ class UpdateCompTime extends Command
                 }
             }
 
+            $comp_minutes = $totalMinutes - (8 * 60);
             CompTime::create([
                 'user_id' => $user->id,
                 'date' => $today,
                 'total_minutes' => $totalMinutes,
-                'comp_minutes' => $totalMinutes - (8 * 60),
+                'comp_minutes' => $comp_minutes,
             ]);
+
+            $new_comp_minutes = $user->comp_minutes + $comp_minutes;
+            User::where('id', $user->id)
+                ->update(['comp_minutes' => $new_comp_minutes]);
 
             $this->info('Comp time updated for ' . $user->name);
         }

@@ -7,7 +7,9 @@ use Filament\Widgets\ChartWidget;
 
 class HoursPerDayChart extends ChartWidget
 {
-    protected static ?string $heading = 'Hours Per Day';
+    protected static ?int $sort = 3;
+
+    protected static ?string $heading = 'Hours Per Day - Week View';
 
     protected function getData(): array
     {
@@ -16,6 +18,8 @@ class HoursPerDayChart extends ChartWidget
             ->where('date', '<=', now()->format('Y-m-d'))
             ->where('date', '>', now()->subDays(6)->format('Y-m-d'))
             ->where('approved', true)
+            ->orderBy('date', 'asc')
+            ->orderBy('time', 'asc')
             ->get();
 
         $weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -38,7 +42,7 @@ class HoursPerDayChart extends ChartWidget
         return 'bar';
     }
 
-    private function getDayPunches($punches)
+    private function getDayPunches($punches): array
     {
         $dayPunches = [];
 
@@ -51,7 +55,7 @@ class HoursPerDayChart extends ChartWidget
         return $dayPunches;
     }
 
-    private function getHoursPerDay($dataPerDay)
+    private function getHoursPerDay($dataPerDay): array
     {
         $hoursPerDay = [];
 

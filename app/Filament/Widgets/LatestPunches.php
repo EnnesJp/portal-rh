@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Date;
 
 class LatestPunches extends BaseWidget
 {
+    protected static ?int $sort = 2;
     public function table(Table $table): Table
     {
         return $table
             ->query(
                 PunchResource::getEloquentQuery()
                     ->where('user_id', auth()->user()->id)
-                    ->latest()
+                    ->orderBy('time', 'asc')
                     ->limit(5)
             )
             ->headerActions([
