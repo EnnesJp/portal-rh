@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PunchResource\Pages;
 use App\Filament\Resources\PunchResource\RelationManagers;
 use App\Models\Punch;
+use App\Models\User;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -54,7 +55,15 @@ class PunchResource extends Resource
                     ->disabled(!auth()->user()->isManager()),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('date')
+                    ->options(fn () => Punch::query()->pluck('date')->unique()->mapWithKeys(fn ($date) => [$date => date('d/m/Y', strtotime($date))]))
+                    ->default(now()->format('Y-m-d')),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->options(fn () => User::query()
+                        ->where('company_id', auth()->user()->company_id)
+                        ->pluck('name', 'id')
+                    )
+                    ->label('User')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
