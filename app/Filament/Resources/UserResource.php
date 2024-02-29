@@ -63,6 +63,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('company.name')
+                    ->hidden(auth()->user()->isManager()),
             ])
             ->filters([
                 //
