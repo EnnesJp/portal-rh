@@ -52,14 +52,10 @@ class LatestPunches extends BaseWidget
                         Forms\Components\TimePicker::make('time')
                             ->readOnly()
                             ->default(now()->format('H:i')),
-                        Forms\Components\TextInput::make('reference')
-                            ->hidden()
-                            ->default(function (): string {
-                                return auth()->user()->punches->last()->reference + 1 ?? '1';
-                            }),
                     ])
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['user_id'] = auth()->id();
+                        $data['reference'] = '1';
                         return $data;
                     })
                     ->action(function (array $data) {

@@ -3,9 +3,11 @@
 namespace App\Filament\Widgets;
 
 use App\Filament\Resources\PunchResource;
+use App\Models\Punch;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Collection;
 
 class NotApprovedsPunch extends BaseWidget
 {
@@ -14,17 +16,38 @@ class NotApprovedsPunch extends BaseWidget
         return $table
             ->query(
                 PunchResource::getEloquentQuery()
-                    ->join('users', 'punches.user_id', '=', 'users.id')
-                    ->where('users.company_id', auth()->user()->company_id)
                     ->where('approved', false)
                     ->latest()
                     ->limit(5)
             )
+            ->actions([
+                Tables\Actions\Action::make('Approve Punch')
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->action(function (Punch $punch) {
+                        $punch->update(['approved' => true]);
+                    }),
+            ])
+
+            ->bulkActions([
+                Tables\Actions\BulkAction::make('Approve Punches')
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->outlined()
+                    ->action(function (Collection $records) {
+                        $records->each->update(['approved' => true]);
+                    })
+                    ->deselectRecordsAfterCompletion()
+                    ->requiresConfirmation()
+                    ->modalHeading('Approve Punches')
+                    ->modalSubheading('Are you sure you want to approve the selected punches?')
+                    ->modalButton('Approve Punches')
+                    ->modalIcon('heroicon-o-check'),
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('User')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Date')
                     ->searchable()
@@ -33,10 +56,12 @@ class NotApprovedsPunch extends BaseWidget
                     ->label('Time')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\CheckboxColumn::make('approved')
-                    ->label('Approved')
-                    ->searchable()
-                    ->sortable(),
             ]);
+    }
+
+    public static function canView(): bool
+    {
+        return auth()->user()->isManager()
+            || auth()->user()->isAdmin();
     }
 }
