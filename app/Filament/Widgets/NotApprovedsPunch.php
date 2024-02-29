@@ -14,6 +14,8 @@ class NotApprovedsPunch extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('No punches to approve')
+            ->emptyStateIcon('heroicon-o-check-badge')
             ->query(
                 PunchResource::getEloquentQuery()
                     ->where('approved', false)
