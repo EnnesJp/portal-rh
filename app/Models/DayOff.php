@@ -11,11 +11,12 @@ class DayOff extends Model
     use HasFactory;
 
     protected $table = 'day_offs';
-
+    public $timestamps = false;
     protected $fillable = [
         'user_id',
         'date',
         'type',
+        'reason',
     ];
 
     public function user(): BelongsTo

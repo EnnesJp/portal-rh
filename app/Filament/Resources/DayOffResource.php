@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DayOffResource\Pages;
 use App\Filament\Resources\DayOffResource\RelationManagers;
 use App\Models\DayOff;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -38,9 +39,13 @@ class DayOffResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('reason')
                     ->maxLength(255),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name', function (Builder $query) {
-                        return $query->where('company_id', auth()->user()->company_id);
+                Forms\Components\Select::make('users')
+                    ->multiple()
+                    ->label('User')
+                    ->options(function (Builder $query) {
+                        return User::query()
+                            ->where('company_id', auth()->user()->company_id)
+                            ->pluck('name', 'id');
                     })
             ]);
     }

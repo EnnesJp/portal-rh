@@ -11,7 +11,7 @@ class CompTime extends Model
     use HasFactory;
 
     protected $table = 'comp_time';
-
+    public $timestamps = false;
     protected $fillable = [
         'user_id',
         'date',
