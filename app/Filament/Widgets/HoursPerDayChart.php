@@ -19,14 +19,41 @@ class HoursPerDayChart extends ChartWidget
             ->get();
 
         $weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        $dataPerDay = [];
-        $widgetData = [];
+        $dataPerDay = $this->getDayPunches($punches);
+        $widgetData = $this->getHoursPerDay($dataPerDay);
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Hours',
+                    'data' => $widgetData,
+                ],
+            ],
+            'labels' => $weekDays,
+        ];
+    }
+
+    protected function getType(): string
+    {
+        return 'bar';
+    }
+
+    private function getDayPunches($punches)
+    {
+        $dayPunches = [];
 
         foreach ($punches as $punch) {
             $date = new \DateTime($punch->date);
             $day = $date->format('D');
-            $dataPerDay[$day][] = $punch->time;
+            $dayPunches[$day][] = $punch->time;
         }
+
+        return $dayPunches;
+    }
+
+    private function getHoursPerDay($dataPerDay)
+    {
+        $hoursPerDay = [];
 
         foreach ($dataPerDay as $day => $punches) {
             $totalHours = 0.0;
@@ -43,22 +70,9 @@ class HoursPerDayChart extends ChartWidget
                 $totalHours += round(($start->diff($end)->h * 60 + $start->diff($end)->i) / 60, 2);
             }
 
-            $widgetData[$day] = $totalHours;
+            $hoursPerDay[$day] = $totalHours;
         }
 
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Hours',
-                    'data' => $widgetData,
-                ],
-            ],
-            'labels' => $weekDays,
-        ];
-    }
-
-    protected function getType(): string
-    {
-        return 'bar';
+        return $hoursPerDay;
     }
 }
