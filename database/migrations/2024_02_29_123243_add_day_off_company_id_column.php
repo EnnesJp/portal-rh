@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('day_off', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->nullable();
-            $table->date('date');
-            $table->enum('type', ['vacation', 'sick', 'personal', 'holiday', 'other'])->default('other');
+        Schema::table('day_offs', function (Blueprint $table) {
+            $table->foreignId('company_id')->references('id')->on('company');
         });
     }
 
@@ -24,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('day_off');
+        Schema::table('day_offs', function (Blueprint $table) {
+            $table->dropForeign(['company_id']);
+            $table->dropColumn(['company_id']);
+        });
     }
 };

@@ -36,6 +36,12 @@ class DayOffResource extends Resource
                         'other' => 'Other',
                     ])
                     ->required(),
+                Forms\Components\TextInput::make('reason')
+                    ->maxLength(255),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name', function (Builder $query) {
+                        return $query->where('company_id', auth()->user()->company_id);
+                    })
             ]);
     }
 

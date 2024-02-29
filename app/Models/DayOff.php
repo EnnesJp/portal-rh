@@ -10,7 +10,7 @@ class DayOff extends Model
 {
     use HasFactory;
 
-    protected $table = 'day_off';
+    protected $table = 'day_offs';
 
     protected $fillable = [
         'user_id',
