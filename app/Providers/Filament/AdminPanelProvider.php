@@ -50,6 +50,10 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
+            ->globalSearchKeyBindings([
+                'ctrl+k',
+                'command+k',
+            ])
             ->sidebarCollapsibleOnDesktop()
             ->navigationItems([
                 NavigationItem::make('OnHappy')

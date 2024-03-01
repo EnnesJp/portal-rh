@@ -40,14 +40,19 @@ class ManageDayOffs extends ManageRecords
         return [
             'All Days Off' => Tab::make(),
             'Vacation' => Tab::make()
+                ->badge($this->getResource()::getEloquentQuery()->where('type', 'vacation')->count())
                 ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'vacation')),
             'Sick' => Tab::make()
+                ->badge($this->getResource()::getEloquentQuery()->where('type', 'sick')->count())
                 ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'sick')),
             'Personal' => Tab::make()
+                ->badge($this->getResource()::getEloquentQuery()->where('type', 'personal')->count())
                 ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'personal')),
             'Holiday' => Tab::make()
+                ->badge($this->getResource()::getEloquentQuery()->where('type', 'holiday')->count())
                 ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'holiday')),
             'Other' => Tab::make()
+                ->badge($this->getResource()::getEloquentQuery()->where('type', 'other')->count())
                 ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'other')),
         ];
     }

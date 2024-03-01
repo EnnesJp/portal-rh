@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -19,6 +20,32 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?int $navigationSort = 1;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static int $globalSearchResultsLimit = 10;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'email',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Company' => $record->company->name,
+        ];
+    }
+
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        // Used for improve performance
+        return parent::getGlobalSearchEloquentQuery()
+            ->with(['company']);
+    }
 
     public static function form(Form $form): Form
     {
