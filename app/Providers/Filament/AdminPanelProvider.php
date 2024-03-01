@@ -2,11 +2,16 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\CompanyResource;
+use App\Filament\Resources\DayOffResource;
+use App\Filament\Resources\PunchResource;
+use App\Filament\Resources\UserResource;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationBuilder;
 use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
@@ -92,6 +97,19 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->topNavigation()
+            // Customize manual navigation
+            //->navigation(function (NavigationBuilder $navigation): NavigationBuilder {
+            //    return $navigation->items([
+            //        NavigationItem::make('Inicio')
+            //            ->icon('heroicon-o-home')
+            //            ->url(fn (): string => Pages\Dashboard::getUrl()),
+            //        ...UserResource::getNavigationItems(),
+            //        ...CompanyResource::getNavigationItems(),
+            //        ...PunchResource::getNavigationItems(),
+            //        ...DayOffResource::getNavigationItems(),
+            //    ]);
+            //})
             ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }
