@@ -82,11 +82,14 @@ class UserResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
+    public static function getNavigationBadge(): ?string
     {
-        return [
-            //
-        ];
+        return User::query()->where('company_id', auth()->user()->company_id)->count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return 'warning';
     }
 
     public static function getPages(): array

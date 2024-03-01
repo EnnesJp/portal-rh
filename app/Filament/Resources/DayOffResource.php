@@ -125,4 +125,9 @@ class DayOffResource extends Resource
             'index' => Pages\ManageDayOffs::route('/'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return 'NEW';
+    }
 }

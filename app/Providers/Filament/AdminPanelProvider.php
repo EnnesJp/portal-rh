@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordResetRouteSlug('reset')
             ->favicon(asset('images/favicon.png'))
             ->brandLogo(asset('images/logo-new.png'))
-            ->brandLogoHeight('4rem')
+            ->brandLogoHeight('3.5rem')
             ->font('Poppins')
             ->colors([
                 'danger' => Color::Rose,
