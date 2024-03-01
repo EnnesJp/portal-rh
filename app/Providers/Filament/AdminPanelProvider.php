@@ -100,19 +100,18 @@ class AdminPanelProvider extends PanelProvider
             ])
             //->topNavigation()
             // Customize manual navigation
-            ->navigation(function (NavigationBuilder $navigation): NavigationBuilder {
-                return $navigation->items([
-                    NavigationItem::make('Inicio')
-                        ->icon('heroicon-o-home')
-                        ->url(fn (): string => Pages\Dashboard::getUrl()),
-                    NavigationItem::make('Usuários'),
-
-                    ...UserResource::getNavigationItems(),
-                    ...CompanyResource::getNavigationItems(),
-                    ...PunchResource::getNavigationItems(),
-                    ...DayOffResource::getNavigationItems(),
-                ]);
-            })
+            //->navigation(function (NavigationBuilder $navigation): NavigationBuilder {
+            //    return $navigation->items([
+            //        NavigationItem::make('Inicio')
+            //            ->icon('heroicon-o-home')
+            //            ->url(fn (): string => Pages\Dashboard::getUrl()),
+            //        NavigationItem::make('Usuários'),
+            //        ...UserResource::getNavigationItems(),
+            //        ...CompanyResource::getNavigationItems(),
+            //        ...PunchResource::getNavigationItems(),
+            //        ...DayOffResource::getNavigationItems(),
+            //    ]);
+            //})
             ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }
