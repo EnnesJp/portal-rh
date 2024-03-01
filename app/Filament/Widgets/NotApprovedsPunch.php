@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class NotApprovedsPunch extends BaseWidget
 {
+    protected static ?int $sort = 4;
     public function table(Table $table): Table
     {
         return $table
