@@ -38,7 +38,6 @@ class DayOffResource extends Resource
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('reason')
-                    ->required(fn(array $record): bool => $record['type'] === 'other')
                     ->maxLength(255),
                 Forms\Components\Select::make('users')
                     ->multiple()
