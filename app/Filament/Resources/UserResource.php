@@ -39,10 +39,12 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
+                    ->hidden(fn(string $context): bool => $context !== 'create')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->password()
                     ->required()
+                    ->hidden(fn(string $context): bool => $context !== 'create')
                     ->maxLength(255)
                     ->dehydrated(false)
                     ->same('password'),

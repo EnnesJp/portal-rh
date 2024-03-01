@@ -6,6 +6,7 @@ use App\Filament\Resources\PunchResource\Pages;
 use App\Filament\Resources\PunchResource\RelationManagers;
 use App\Models\Punch;
 use App\Models\User;
+use Filament\Resources\Components\Tab;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -62,7 +63,7 @@ class PunchResource extends Resource
                     ->relationship('user', 'name', function (Builder $query) {
                         return $query->where('company_id', auth()->user()->company_id);
                     })
-                    ->label('User')
+                    ->label('User'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -5,7 +5,9 @@ namespace App\Filament\Resources\DayOffResource\Pages;
 use App\Filament\Resources\DayOffResource;
 use App\Models\DayOff;
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ManageDayOffs extends ManageRecords
 {
@@ -30,6 +32,23 @@ class ManageDayOffs extends ManageRecords
                         ]);
                     }
                 }),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'All Days Off' => Tab::make(),
+            'Vacation' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'vacation')),
+            'Sick' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'sick')),
+            'Personal' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'personal')),
+            'Holiday' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'holiday')),
+            'Other' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'other')),
         ];
     }
 }

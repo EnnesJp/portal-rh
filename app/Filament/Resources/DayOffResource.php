@@ -38,6 +38,7 @@ class DayOffResource extends Resource
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('reason')
+                    ->required(fn(array $record): bool => $record['type'] === 'other')
                     ->maxLength(255),
                 Forms\Components\Select::make('users')
                     ->multiple()
@@ -65,6 +66,9 @@ class DayOffResource extends Resource
                     ->label('Type')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('reason')
+                    ->label('Reason')
+                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
