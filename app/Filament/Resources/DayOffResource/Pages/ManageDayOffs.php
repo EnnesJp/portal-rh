@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DayOffResource\Pages;
 
+use App\Constants\DayOffsConstants;
 use App\Filament\Resources\DayOffResource;
 use App\Models\DayOff;
 use Filament\Actions;
@@ -40,20 +41,20 @@ class ManageDayOffs extends ManageRecords
         return [
             'All Days Off' => Tab::make(),
             'Vacation' => Tab::make()
-                ->badge($this->getResource()::getEloquentQuery()->where('type', 'vacation')->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'vacation')),
+                ->badge($this->getResource()::getEloquentQuery()->where('type', DayOffsConstants::VACATION)->count())
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', DayOffsConstants::VACATION)),
             'Sick' => Tab::make()
-                ->badge($this->getResource()::getEloquentQuery()->where('type', 'sick')->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'sick')),
+                ->badge($this->getResource()::getEloquentQuery()->where('type', DayOffsConstants::SICK)->count())
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', DayOffsConstants::SICK)),
             'Personal' => Tab::make()
-                ->badge($this->getResource()::getEloquentQuery()->where('type', 'personal')->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'personal')),
+                ->badge($this->getResource()::getEloquentQuery()->where('type', DayOffsConstants::PERSONAL)->count())
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', DayOffsConstants::PERSONAL)),
             'Holiday' => Tab::make()
-                ->badge($this->getResource()::getEloquentQuery()->where('type', 'holiday')->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'holiday')),
+                ->badge($this->getResource()::getEloquentQuery()->where('type', DayOffsConstants::HOLIDAY)->count())
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', DayOffsConstants::HOLIDAY)),
             'Other' => Tab::make()
-                ->badge($this->getResource()::getEloquentQuery()->where('type', 'other')->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', 'other')),
+                ->badge($this->getResource()::getEloquentQuery()->where('type', DayOffsConstants::OTHER)->count())
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('type', DayOffsConstants::OTHER)),
         ];
     }
 }

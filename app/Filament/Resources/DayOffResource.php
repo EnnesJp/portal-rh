@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Constants\DayOffsConstants;
 use App\Filament\Resources\DayOffResource\Pages;
 use App\Filament\Resources\DayOffResource\RelationManagers;
 use App\Models\DayOff;
@@ -30,11 +31,11 @@ class DayOffResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('type')
                     ->options([
-                        'vacation' => 'Vacation',
-                        'sick' => 'Sick',
-                        'personal' => 'Personal',
-                        'holiday' => 'Holiday',
-                        'other' => 'Other',
+                        DayOffsConstants::VACATION => 'Vacation',
+                        DayOffsConstants::SICK => 'Sick',
+                        DayOffsConstants::PERSONAL => 'Personal',
+                        DayOffsConstants::HOLIDAY => 'Holiday',
+                        DayOffsConstants::OTHER => 'Other',
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('reason')
@@ -66,11 +67,11 @@ class DayOffResource extends Resource
                     ->label('Type')
                     ->color(function (DayOff $record) {
                         return match ($record->type) {
-                            'vacation' => 'success',
-                            'sick' => 'danger',
-                            'personal' => 'warning',
-                            'holiday' => 'primary',
-                            'other' => 'info',
+                            DayOffsConstants::VACATION => 'success',
+                            DayOffsConstants::SICK => 'danger',
+                            DayOffsConstants::PERSONAL => 'warning',
+                            DayOffsConstants::HOLIDAY => 'primary',
+                            DayOffsConstants::OTHER => 'info',
                         };
                     })
                     ->searchable(),
@@ -88,11 +89,9 @@ class DayOffResource extends Resource
                     ->label('Date')
                     ->form([
                         Forms\Components\DatePicker::make('date_from')
-                            ->label('From')
-                            ->displayFormat('d/m/Y'),
+                            ->label('From'),
                         Forms\Components\DatePicker::make('date_until')
-                            ->label('Until')
-                            ->displayFormat('d/m/Y'),
+                            ->label('Until'),
                     ])
                 ->query(function (Builder $query, array $data): Builder {
                     return $query
