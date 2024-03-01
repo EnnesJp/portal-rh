@@ -59,25 +59,54 @@ class DayOffResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Date')
+                    ->date('d/m/Y')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\BadgeColumn::make('type')
                     ->label('Type')
-                    ->searchable()
-                    ->sortable(),
+                    ->color(function (DayOff $record) {
+                        return match ($record->type) {
+                            'vacation' => 'success',
+                            'sick' => 'danger',
+                            'personal' => 'warning',
+                            'holiday' => 'primary',
+                            'other' => 'info',
+                        };
+                    })
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('reason')
                     ->label('Reason')
                     ->searchable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
-                    ->options([
-                        'vacation' => 'Vacation',
-                        'sick' => 'Sick',
-                        'personal' => 'Personal',
-                        'holiday' => 'Holiday',
-                        'other' => 'Other',
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label('User')
+                    ->relationship('user', 'name', function (Builder $query) {
+                        return $query->where('company_id', auth()->user()->company_id);
+                    }),
+                Tables\Filters\Filter::make('date')
+                    ->label('Date')
+                    ->form([
+                        Forms\Components\DatePicker::make('date_from')
+                            ->label('From')
+                            ->displayFormat('d/m/Y'),
+                        Forms\Components\DatePicker::make('date_until')
+                            ->label('Until')
+                            ->displayFormat('d/m/Y'),
                     ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['date_from'],
+                            fn (Builder $query, $date_from): Builder => $query
+                                ->whereDate('date', '>=', $date_from),
+                        )
+                        ->when(
+                          $data['date_until'],
+                          fn (Builder $query, $date_until): Builder => $query
+                              ->whereDate('date', '<=', $date_until),
+                        );
+                })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
