@@ -60,10 +60,7 @@ class PunchResource extends Resource
                     ->options(fn () => Punch::query()->pluck('date')->unique()->mapWithKeys(fn ($date) => [$date => date('d/m/Y', strtotime($date))]))
                     ->default(now()->format('Y-m-d')),
                 Tables\Filters\SelectFilter::make('user_id')
-                    ->relationship('user', 'name', function (Builder $query) {
-                        return $query->where('company_id', auth()->user()->company_id);
-                    })
-                    ->label('User'),
+                    ->userSelect(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
