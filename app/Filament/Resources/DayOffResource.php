@@ -27,29 +27,7 @@ class DayOffResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\DatePicker::make('date')
-                    ->required(),
-                Forms\Components\Select::make('type')
-                    ->options([
-                        DayOffsConstants::VACATION => 'Vacation',
-                        DayOffsConstants::SICK => 'Sick',
-                        DayOffsConstants::PERSONAL => 'Personal',
-                        DayOffsConstants::HOLIDAY => 'Holiday',
-                        DayOffsConstants::OTHER => 'Other',
-                    ])
-                    ->required(),
-                Forms\Components\TextInput::make('reason')
-                    ->maxLength(255),
-                Forms\Components\Select::make('users')
-                    ->multiple()
-                    ->label('User')
-                    ->options(function (Builder $query) {
-                        return User::query()
-                            ->where('company_id', auth()->user()->company_id)
-                            ->pluck('name', 'id');
-                    })
-            ]);
+            ->schema(DayOff::getForm());
     }
 
     public static function table(Table $table): Table
