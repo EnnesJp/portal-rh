@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Forms\Components\ColorPicker;
+use App\Forms\Components\Section;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -83,9 +84,12 @@ class UserResource extends Resource
                         'user' => 'User',
                     ])
                     ->default('user'),
-                ColorPicker::make('color')
-                    ->default('ff0000')
-                    ->width(200)
+                Section::make('Color Section')
+                    ->schema([
+                        ColorPicker::make('color')
+                            ->default('ff0000')
+                            ->width(200)
+                    ])
             ]);
     }
 
