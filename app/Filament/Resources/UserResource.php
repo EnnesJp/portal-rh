@@ -9,6 +9,8 @@ use App\Forms\Components\Section;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -126,6 +128,19 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->recordUrl(
+                fn (User $record): string => Pages\ViewUser::getUrl([$record->id]),
+            );
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name'),
+                Infolists\Components\TextEntry::make('email'),
+                Infolists\Components\TextEntry::make('company.name'),
             ]);
     }
 
@@ -146,6 +161,7 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
             'settings' => Pages\Settings::route('/settings'),
+            'view' => Pages\ViewUser::route('/{record}'),
         ];
     }
 
