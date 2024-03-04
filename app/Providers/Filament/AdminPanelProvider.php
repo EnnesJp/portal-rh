@@ -50,7 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ->font('Poppins')
             ->colors([
                 'danger' => Color::Rose,
-                'gray' => Color::Gray,
+                'gray' => Color::Slate,
                 'info' => Color::Blue,
                 'primary' => 'rgb(138,43,226)',
                 'success' => Color::Emerald,
