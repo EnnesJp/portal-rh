@@ -8,6 +8,9 @@ class Section extends Component
 {
     protected string $view = 'forms.components.section';
 
+    protected string | \Closure | null $description = null;
+    protected string | \Closure | null $icon = null;
+
     public function __construct(
         protected string | \Closure $heading,
     )
@@ -22,8 +25,32 @@ class Section extends Component
         ]);
     }
 
-    public function getHeading()
+    public function description(string | \Closure | null $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function icon(string | \Closure | null $icon): static
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getHeading(): string
     {
         return $this->evaluate($this->heading);
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->evaluate($this->description);
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->evaluate($this->icon);
     }
 }

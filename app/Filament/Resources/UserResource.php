@@ -85,11 +85,14 @@ class UserResource extends Resource
                     ])
                     ->default('user'),
                 Section::make('Color Section')
+                    ->description('Pick a color')
+                    ->icon('heroicon-o-eye-dropper')
                     ->schema([
                         ColorPicker::make('color')
                             ->default('ff0000')
                             ->width(200)
                     ])
+                    ->columns(2)
             ]);
     }
 
