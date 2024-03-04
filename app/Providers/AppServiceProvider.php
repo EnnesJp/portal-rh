@@ -39,31 +39,6 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Filter::macro('dateRange', function () {
-            $this
-                ->form([
-                Forms\Components\DatePicker::make('date_from')
-                    ->label('From'),
-                Forms\Components\DatePicker::make('date_until')
-                    ->label('Until'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['date_from'],
-                            fn (Builder $query, $date_from): Builder => $query
-                                ->whereDate('date', '>=', $date_from),
-                        )
-                        ->when(
-                            $data['date_until'],
-                            fn (Builder $query, $date_until): Builder => $query
-                                ->whereDate('date', '<=', $date_until),
-                        );
-                });
-
-            return $this;
-        });
-
         Model::unguard();
     }
 }

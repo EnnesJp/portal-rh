@@ -7,6 +7,7 @@ use App\Filament\Resources\DayOffResource\Pages;
 use App\Filament\Resources\DayOffResource\RelationManagers;
 use App\Models\DayOff;
 use App\Models\User;
+use App\Tables\Filters\DateRangeFilter;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -82,9 +83,8 @@ class DayOffResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('user_id')
                     ->userSelect(),
-                Tables\Filters\Filter::make('date')
-                    ->label('Date')
-                    ->dateRange(),
+                DateRangeFilter::make('date')
+                    ->maxDate(now()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
