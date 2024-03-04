@@ -8,6 +8,7 @@ use App\Forms\Components\ColorPicker;
 use App\Forms\Components\Section;
 use App\Infolists\Components\ColorEntry;
 use App\Models\User;
+use App\Tables\Columns\ColorColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
@@ -116,6 +117,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('company.name')
                     ->hidden(auth()->user()->isManager()),
+                ColorColumn::make('color')
+                    ->default('#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT))
             ])
             ->filters([
                 //
