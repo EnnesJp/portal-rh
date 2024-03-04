@@ -19,11 +19,10 @@ class DateRangeFilter extends BaseFilter
                     ->schema([
                         Forms\Components\DatePicker::make('date_from')
                             ->label('From')
-                            ->native(false)
-                            ->maxDate($this->getMaxDate()),
+                            ->maxDate($this->getMaxDate())
+                        ->dateformat('Y-m-d'),
                         Forms\Components\DatePicker::make('date_to')
                             ->label('To')
-                            ->native(false)
                             ->maxDate($this->getMaxDate()),
                     ])
                     ->columns(1),

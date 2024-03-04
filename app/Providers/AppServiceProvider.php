@@ -26,7 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         DatePicker::configureUsing(function (DatePicker $datePicker) {
-            $datePicker->displayFormat('d/m/Y');
+            $datePicker
+                ->native(false)
+                ->displayFormat('d/m/Y');
         });
 
         SelectFilter::macro('userSelect', function () {
