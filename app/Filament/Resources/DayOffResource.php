@@ -75,10 +75,12 @@ class DayOffResource extends Resource
                             DayOffsConstants::OTHER => 'info',
                         };
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('reason')
                     ->label('Reason')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('user_id')
