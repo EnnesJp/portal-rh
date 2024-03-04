@@ -15,7 +15,7 @@
                 @if ($width)
                     width: @js($width),
                 @endif
-                color: state,
+                color: state ?? 'ffffff',
             });
 
             colorPicker.on('color:change', (color) => {

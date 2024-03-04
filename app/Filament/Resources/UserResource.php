@@ -88,11 +88,20 @@ class UserResource extends Resource
                     ->description('Pick a color')
                     ->icon('heroicon-o-eye-dropper')
                     ->schema([
-                        ColorPicker::make('color')
+                        ColorPicker::make('color-1')
+                            ->width(200),
+                        ColorPicker::make('color-2')
+                            ->default('00ff00')
+                            ->width(200),
+                        ColorPicker::make('color-3')
                             ->default('ff0000')
+                            ->width(200),
+                        ColorPicker::make('color-4')
+                            ->default('0000ff')
                             ->width(200)
                     ])
-                    ->columns(2)
+                    ->columns(4)
+                    ->columnSpan(2)
             ]);
     }
 
