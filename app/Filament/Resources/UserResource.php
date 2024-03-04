@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Forms\Components\ColorPicker;
 use App\Forms\Components\Section;
+use App\Infolists\Components\ColorEntry;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -141,6 +142,15 @@ class UserResource extends Resource
                 Infolists\Components\TextEntry::make('name'),
                 Infolists\Components\TextEntry::make('email'),
                 Infolists\Components\TextEntry::make('company.name'),
+                ColorEntry::make('color')
+                    ->width(fn (string $state): int => match ($state) {
+                        '#ff0000' => 4,
+                        '#00ff00' => 5,
+                        '#0000ff' => 6,
+                    })
+                    ->state([
+                        '#ff0000', '#00ff00', '#0000ff',
+                    ])
             ]);
     }
 
