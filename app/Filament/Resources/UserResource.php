@@ -142,15 +142,25 @@ class UserResource extends Resource
                 Infolists\Components\TextEntry::make('name'),
                 Infolists\Components\TextEntry::make('email'),
                 Infolists\Components\TextEntry::make('company.name'),
-                ColorEntry::make('color')
-                    ->width(fn (string $state): int => match ($state) {
-                        '#ff0000' => 4,
-                        '#00ff00' => 5,
-                        '#0000ff' => 6,
-                    })
-                    ->state([
-                        '#ff0000', '#00ff00', '#0000ff',
+                \App\Infolists\Components\Section::make('Color Section')
+                    ->description('Pick a color')
+                    ->icon('heroicon-o-heart')
+                    ->schema([
+                        Infolists\Components\ColorEntry::make('primary')
+                            ->state('rgb(138,43,226)'),
+                        Infolists\Components\ColorEntry::make('secondary')
+                            ->state('rgb(255,255,255)'),
+                        Infolists\Components\ColorEntry::make('success')
+                            ->state('rgb(40,167,69)'),
+                        Infolists\Components\ColorEntry::make('danger')
+                            ->state('rgb(220,53,69)'),
+                        Infolists\Components\ColorEntry::make('warning')
+                            ->state('rgb(255,193,7)'),
+                        Infolists\Components\ColorEntry::make('info')
+                            ->state('rgb(23,162,184)'),
                     ])
+                    ->columns(3)
+                    ->columnSpan(2),
             ]);
     }
 
